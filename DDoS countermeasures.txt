@@ -1,0 +1,29 @@
+# Layer 4 / Network level countermeasures
+Disable all unused ports
+Block unnecessary protocols (i.e. ICMP)
+Filter ingress traffic -> reputation based blocking
+Implement "blackholing" or "tarpitting"
+	- Terminate traffic upstream of the origin server
+ 	- No response is sent, the traffic just "disappears"
+Only works if the network isnt saturated with data -> use anycast nodes
+
+# Layer 7 / Application level countermeasures
+Dedicated devices such as a WAF can inspect HTTP traffic - make sure they can also inspect HTTPS traffic
+Minimize the attack surface area:
+	-Take anything that doesn't have to be public off that network segment
+	-Place them within a private subnet
+
+Design the application for DDoS resilient
+	-Sandbox application features, ie: separate login, shop, search and report -> parts that cause a lot of overhead
+
+CloudFlare
+
+
+
+Prepare yourself:
+Implement a DoS strategy well in advance of an attack
+	- Some defenses can have long lead-times to implement
+
+Use legitimate stress test services
+D/DoS Incident Response RunBook
+Know what a successful DoS attack wil actually cost you

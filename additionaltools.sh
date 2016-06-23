@@ -1,0 +1,1 @@
+apt-get install preload -y && apt-get install bleachbit -y && apt-get install bum -y && apt-get install gnome-do -y && apt-get install apt-file -y && apt-get install scrub -y && apt-get install figlet -y && apt-get install shutter -y && apt-get install openvas -y && openvas-setup

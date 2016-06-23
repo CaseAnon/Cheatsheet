@@ -1,0 +1,8 @@
+# Banner grabbing countermeasures
+
+- Misdirection / fake banners
+- IIS lockdown tool
+- ServerMask
+- Turn off unused services
+- Set the ServerSignature to OFF httpd.conf
+- modify mod_headers in httpd.conf

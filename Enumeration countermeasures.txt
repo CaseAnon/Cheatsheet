@@ -1,0 +1,32 @@
+Defaults & NetBIOS:
+	-Change default settings
+	-Be aware of your ports
+	-Turn off SMB if not needed
+
+SNMP:
+	-Turn it off if not needed, otherwise upgrade to v3
+	-Group policy: addtional restrictions for anonymous connections
+	-Block ports 161 on TCP/UDP. Or restrict it use via firewall
+	-IPSec filtering
+	-Limit access to null sessions
+		
+LDAP:
+	-Separate email address from login names !!! AVOID DEFAULTS !!!
+	-Use SSL to encrypt LDAP
+	-Encrypt drives that store LDAP databases
+
+NTP:
+	-Watch your ports
+	-Understand what software is installed
+	-Check your master NTP
+
+SMTP:
+	-Disable open relays
+	-Drop unknown recipients
+	-Never include email server info in your email or posts
+
+DNS:
+	-Configure DNS Zone Transfer to explicit servers
+	-Ensure that nonpublic hostnames are not referenced to IP within the DNS zone files or publicly accesible DNS servers
+	-Check both internal and external DNS servers
+	-Ensure HINFO and other records do not appear in DNS zone files

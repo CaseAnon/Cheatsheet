@@ -1,0 +1,7 @@
+# Pentesting web servers
+1. Mirror the site and inspect the structure. Use notepad++ for finding sensitive stuff
+2. Use passivetotal.org to gather information; do reverse dns lookup to see which other web apps the web server is hosting
+3. Use w3dt.net (and/other tools) to work out the underlying web server infrastructure.
+4. Check the first request in chromedevtools to see the server in the response header.
+5. Compare results to figure out
+6. Check SSL implementation: Use sslabs.com to assess the SSL of a site

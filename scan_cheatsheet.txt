@@ -1,0 +1,33 @@
+For nmap use -T to set the number of threads. This allows nmap to be somewhat stealthy
+
+nmap -PN -sV <ip> 	 			will do a pretty detailed scan
+nmap -A  <ip> 		 			will do a pretty detailed scan (use -T for stealth)
+nmap -sP <ip>  					Ping sweep
+nmap -sT <ip>					Full scan
+nmap -sS <ip> 					Half open scan / stealth scan
+nmap -sX <ip>					Xmas (not for windows/MS products)
+nmap -sF <ip> 	 				FIN scan (not for windows/MS products)
+nmap -sN <ip>					NULL scan (not for windows/MS products)
+hping3 -S <ip> -p <port> 			SYN packet TCP Based ping
+hping3 -1 192.168.1.x --rand-dest -i eth0	Random ping sweep
+hping3 -S <ip> -a <sourceip> -p <port> --flood  SYN flood to target spoofing source IP
+
+nmap -O <ip> 					OS Fingerprinting VERY ACTIVE!	
+telnet <ip> 					Banner grabbing VERY ACTIVE!
+netcat <ip> 					Banner grabbing /monitor portsVERY ACTIVE!
+
+
+Check for open ports in hopped machines to see through which ports we can pass stuff
+firewalk -s20-100 -i eth0 -n -pTCP <gatewayAddressStoppingMe> <destAddress> Scan ports 20-100, -n don't resolve hostnames, protocol TCP
+
+
+Scans for avoiding IDS:
+nmap -sI <zombieip> <targetip> IDLE Scan: Uses TCP port scan method but spoofs the source address. Requires a zombie for src addr.
+Use proxy or pwned machine
+nmap -f <ip>					Fragment IP Packets
+nmap -D (coma separated spoof IPs)/RND <ip>	Spoof src addrs. Can be specified or generated random
+Source routing
+
+
+
+

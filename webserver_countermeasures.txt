@@ -1,0 +1,14 @@
+# Web server countermeasures
+
+* Patch management
+-Have a Change Control Process
+-Apply Updates on a Needs Basis
+-Have a Testing Process
+-Have a Rollback Plan -> make sure it works
+-Schedule an Update Cadence
+-Automate Monitoring
+-Use supported versions
+-Disable unneeded services
+-Sandboxing
+-Streamline testing with automation
+ You can use acutenix.com & whitehatsec.com to assess the web security and do a sanity check

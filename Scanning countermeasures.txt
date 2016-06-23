@@ -1,0 +1,6 @@
+# Firewalls configured to look for SYN Scans
+# IDS should detect Nmap/Snort
+# Open only required ports
+# Filter & Record ICMP Messages
+# Test your own network
+# Keep firewalls / IDS updated/patched
