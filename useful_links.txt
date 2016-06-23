@@ -1,0 +1,101 @@
+ttp://www.hackingtutorials.org/web-application-hacking/websploit-cloudflare-resolver-module/
+https://www.cybrary.it/
+http://ihackers.co/downloads/books/publishers/syngress/
+https://ibotpeaches.github.io/Apktool/
+https://packetstormsecurity.com/files/tags/python/
+http://www.catb.org/esr/faqs/hacker-howto.html
+ 
+*DoS: AnonymousDoSer
+ 
+Training Material
+ 
+    Codecademy: http://www.codecademy.com/
+    Corelan: https://www.corelan.be/index.php/articles/
+    End Game (How to Get Started in CTF): http://www.endgame.com/
+    Hacking Cisco: http://hackingcisco.blogspot.com/
+    Metasploit Unleashed: http://www.offensive-security.com/metasploit-unleashed/
+    Open Security Training: http://opensecuritytraining.info/
+    Pentest Standard: http://www.pentest-standard.org/index.php/Main_Page
+    Router Gods: http://www.routergods.com/
+    SWEET (Secure WEb dEvelopment Teaching): http://www.csis.pace.edu/~lchen/sweet/
+    SEED: Vulnerability and Attack Labs: http://www.cis.syr.edu/~wedu/seed/all_labs.html/
+    Security Tube: http://www.securitytube.net/
+ 
+Random services:
+http://10minutemail.com
+http://whatstheirip.com/
+ 
+Live Online Games
+Recommended
+ 
+Whether they're being updated, contain high quality challenges, or just have a lot of depth, these are probably where you want to spend the most time.
+ 
+    http://pwnable.kr/ (one of the more popular recent wargamming sets of challenges)
+    https://picoctf.com/ (Designed for high school students while the event is usually new every year, it's left online and has a great difficulty progression)
+    https://microcorruption.com/login (one of the best interfaces, a good difficulty curve and introduction to low-level reverse engineering, specifically on an MSP430)
+    http://reversing.kr/
+    http://hax.tor.hu/
+    https://w3challs.com/
+    https://pwn0.com/
+    http://www.smashthestack.org/
+    http://ringzer0team.com/
+    http://www.hellboundhackers.org/
+    http://www.overthewire.org/wargames/
+    http://counterhack.net/Counter_Hack/Challenges.html
+    http://www.hackthissite.org/
+    http://vulnhub.com/
+ 
+Others
+ 
+    http://hackthecause.info/
+    http://bright-shadows.net/
+    http://www.mod-x.co.uk/main.php
+    http://scanme.nmap.org/
+    http://www.hackertest.net/
+    http://net-force.nl/
+    http://securityoverride.org/ Some good concepts, but "canned" vulnerabilities (string matching on input) will frustrate knowledgable hackers and teach newbies the wrong lessons
+ 
+Meta
+ 
+    http://www.wechall.net/sites.php (excellent list of challenge sites)
+    http://ctf.forgottensec.com/wiki/ (good CTF wiki, though focused on CCDC)
+    http://repo.shell-storm.org/CTF/ (great archive of CTFs)
+ 
+Webapp Specific
+ 
+    http://demo.testfire.net/
+    http://wocares.com/xsstester.php
+    http://crackme.cenzic.com/
+    http://test.acunetix.com/
+    http://zero.webappsecurity.com/
+ 
+Forensics Specific
+ 
+    http://computer-forensics.sans.org/community/challenges
+    http://forensicscontest.com/
+ 
+Recruiting
+ 
+    https://www.praetorian.com/challenges/pwnable/
+    http://rtncyberjobs.com/
+    http://0x41414141.com/
+ 
+Paid Training
+ 
+    http://heorot.net/
+ 
+Downloadable Offline Games
+ 
+    http://www.badstore.net/
+    http://www.owasp.org/index.php/Category:OWASP_WebGoat_Project
+    http://www.owasp.org/index.php/Owasp_SiteGenerator
+    Damn Vulnerable Web App
+    Stanford SecureBench
+    Stanford SecureBench Micro
+    http://www.irongeek.com/i.php?page=security/mutillidae-deliberately-vulnerable-php-owasp-top-10
+ 
+Virtual Machines
+ 
+    https://pentesterlab.com/exercises/
+    http://sourceforge.net/projects/metasploitable/files/Metasploitable2/
+    Damn Vulnerable Linux (not currently live? local mirror)
