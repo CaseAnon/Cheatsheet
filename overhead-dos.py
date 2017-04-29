@@ -20,7 +20,7 @@ def create_threads(threads):
 
 def work():
     while True:
-        requests.get("http://fnff.es/Buscador.aspx?search=sgtZISsNfC8%3d")
+        requests.get(WEB)
 
 def main():
     print(art)
