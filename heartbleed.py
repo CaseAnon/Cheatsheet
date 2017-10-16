@@ -21,9 +21,6 @@
 # Quick and dirty demonstration of CVE-2014-0160 by Jared Stafford (jspenguin@jspenguin.org)
 # The author disclaims copyright to this source code.
 
-# python heartbleed.py xxxxx | more,  -n for amount of times
-# mycloud is often vulnerable, anything kerio, openvpn, found one ICS, all kinds
-
 import sys
 import struct
 import socket
